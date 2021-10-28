@@ -1,0 +1,13 @@
+# build files
+bin/
+obj/
+/packages/
+
+# IDE files
+.idea/
+riderModule.iml
+/_ReSharper.Caches/
+**/xs
+
+# OS files
+**/.DS_Store
