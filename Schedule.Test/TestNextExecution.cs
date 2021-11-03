@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using NUnit.Framework;
-using ScheduleSharp;
 
-namespace ScheduleTest
+namespace Scheduling
 {
     public class TestNextExecution
     {

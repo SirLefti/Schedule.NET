@@ -1,6 +1,6 @@
 using System;
 
-namespace ScheduleSharp
+namespace Scheduling
 {
     /// <summary>
     /// This class extends the C# DateTime with some functionality known from Java

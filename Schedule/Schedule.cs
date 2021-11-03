@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace ScheduleSharp
+namespace Scheduling
 {
     public class Schedule
     {
         private readonly int _interval;
         private readonly bool _repeat = true;
         
-        private TimeUnit? _unit;
+        private TimeUnit _unit;
         private DayOfWeek _targetDayOfWeek;
         private Action _action;
         private DateTime _nextExecution = DateTime.MinValue;
-        
+
+        private bool _unitSet = false;
+
         private bool _alive = true;
         private bool _usingTargetTime = false;
         private bool _usingTargetDate = false;
@@ -24,6 +26,7 @@ namespace ScheduleSharp
         private int _targetHour = 0;
         private int _targetMinute = 0;
         private int _targetSecond = 0;
+
 
         private static readonly CoreScheduler _coreScheduler = new CoreScheduler();
         private class CoreScheduler
@@ -151,11 +154,12 @@ namespace ScheduleSharp
 
         public Schedule Seconds()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.SECONDS;
+            _unitSet = true;
             return this;
         }
 
@@ -170,11 +174,12 @@ namespace ScheduleSharp
 
         public Schedule Minutes()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.MINUTES;
+            _unitSet = true;
             return this;
         }
         
@@ -189,11 +194,12 @@ namespace ScheduleSharp
 
         public Schedule Hours()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.HOURS;
+            _unitSet = true;
             return this;
         }
         
@@ -208,11 +214,12 @@ namespace ScheduleSharp
 
         public Schedule Days()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.DAYS;
+            _unitSet = true;
             return this;
         }
         
@@ -227,89 +234,97 @@ namespace ScheduleSharp
 
         public Schedule Weeks()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.WEEKS;
             _targetDayOfWeek = DateTime.Now.DayOfWeek;
+            _unitSet = true;
             return this;
         }
 
         public Schedule Monday()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.WEEKS;
             _targetDayOfWeek = DayOfWeek.Monday;
+            _unitSet = true;
             return this;
         }
 
         public Schedule Tuesday()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.WEEKS;
             _targetDayOfWeek = DayOfWeek.Tuesday;
+            _unitSet = true;
             return this;
         }
 
         public Schedule Wednesday()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.WEEKS;
             _targetDayOfWeek = DayOfWeek.Wednesday;
+            _unitSet = true;
             return this;
         }
 
         public Schedule Thursday()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.WEEKS;
             _targetDayOfWeek = DayOfWeek.Thursday;
+            _unitSet = true;
             return this;
         }
 
         public Schedule Friday()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.WEEKS;
             _targetDayOfWeek = DayOfWeek.Friday;
+            _unitSet = true;
             return this;
         }
 
         public Schedule Saturday()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.WEEKS;
             _targetDayOfWeek = DayOfWeek.Saturday;
+            _unitSet = true;
             return this;
         }
 
         public Schedule Sunday()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.WEEKS;
             _targetDayOfWeek = DayOfWeek.Sunday;
+            _unitSet = true;
             return this;
         }
         
@@ -324,143 +339,156 @@ namespace ScheduleSharp
 
         public Schedule Months()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.MONTHS;
+            _unitSet = true;
             return this;
         }
 
         public Schedule January()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 1;
+            _unitSet = true;
             return this;
         }
 
         public Schedule February()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 2;
+            _unitSet = true;
             return this;
         }
 
         public Schedule March()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 3;
+            _unitSet = true;
             return this;
         }
 
         public Schedule April()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 4;
+            _unitSet = true;
             return this;
         }
 
         public Schedule May()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 5;
+            _unitSet = true;
             return this;
         }
 
         public Schedule June()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 6;
+            _unitSet = true;
             return this;
         }
 
         public Schedule July()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 7;
+            _unitSet = true;
             return this;
         }
 
         public Schedule August()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 8;
+            _unitSet = true;
             return this;
         }
 
         public Schedule September()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 9;
+            _unitSet = true;
             return this;
         }
 
         public Schedule October()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 10;
+            _unitSet = true;
             return this;
         }
 
         public Schedule November()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 11;
+            _unitSet = true;
             return this;
         }
 
         public Schedule December()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
             _targetMonth = 12;
+            _unitSet = true;
             return this;
         }
         
@@ -475,23 +503,25 @@ namespace ScheduleSharp
 
         public Schedule Years()
         {
-            if (_unit != null)
+            if (_unitSet)
             {
                 throw new ScheduleException("schedule unit already set");
             }
             _unit = TimeUnit.YEARS;
+            _unitSet = true;
             return this;
         }
 
         public Schedule At(string timestamp)
         {
             _usingTargetTime = true;
-            if (!_repeat && _unit == null)
+            if (!_repeat && !_unitSet)
             {
                 _unit = TimeUnit.YEARS;
+                _unitSet = true;
             }
 
-            if (_unit == null)
+            if (!_unitSet)
             {
                 throw new ScheduleException("schedule unit not set");
             }
@@ -641,14 +671,14 @@ namespace ScheduleSharp
                 }
                 while (next < now)
                 {
-                    next = next.Add(1, _unit.Value);
+                    next = next.Add(1, _unit);
                 }
                 return next;
             }
             else
             {
                 // next execution, just add interval
-                return _nextExecution.Add(_interval, _unit.Value);
+                return _nextExecution.Add(_interval, _unit);
             }
         }
     }

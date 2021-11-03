@@ -1,6 +1,6 @@
 using System;
 
-namespace ScheduleSharp
+namespace Scheduling
 {
     public class ScheduleException : Exception
     {

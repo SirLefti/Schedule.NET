@@ -1,8 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
-using ScheduleSharp;
+using Scheduling;
 
-namespace ScheduleTest
+namespace Scheduling
 {
     public class TestSchedule
     {

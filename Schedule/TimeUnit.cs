@@ -1,4 +1,4 @@
-namespace ScheduleSharp
+namespace Scheduling
 {
     public enum TimeUnit
     {
