@@ -2,6 +2,19 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <PackOnBuild>true</PackOnBuild>
+        <PackageId>Schedule.NET</PackageId>
+        <PackageVersion>1.7</PackageVersion>
+        <Authors>SirLefti</Authors>
+        <Copyright>Apache 2.0</Copyright>
+        <Owners>SirLefti</Owners>
+        <PackageProjectUrl>https://github.com/SirLefti/Schedule.NET</PackageProjectUrl>
+        <Summary>C# task scheduling for humans. Execute runnable tasks periodically using a friendly syntax.</Summary>
+        <PackageTags>scheduling</PackageTags>
+        <Title>Schedule.NET</Title>
+        <Description>C# task scheduling for humans. Execute runnable tasks periodically using a friendly syntax.</Description>
+        <RepositoryUrl>https://github.com/SirLefti/Schedule.NET</RepositoryUrl>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     </PropertyGroup>
 
 </Project>
