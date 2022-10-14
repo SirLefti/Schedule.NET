@@ -67,14 +67,17 @@ namespace Scheduling
                 while (_alive)
                 {
                     // find next execution timestamp and collect tasks, that are still alive
-                    var nextExecution = DateTime.Now + TimeSpan.FromDays(365 * 4);
+                    var nextExecution = DateTime.Now + TimeSpan.FromDays(30);
+                    var waitIndefinitely = true;
                     var toRun = new HashSet<Schedule>();
                     foreach (var task in _scheduledTasks.Where(task => task._alive))
                     {
                         // Console.WriteLine(DateTime.Now.ToString("u") + " task execution timestamp is " + task._nextExecution);
-                        nextExecution = task._nextExecution < nextExecution
-                            ? task._nextExecution
-                            : nextExecution;
+                        if (task._nextExecution < nextExecution)
+                        {
+                            nextExecution = task._nextExecution;
+                            waitIndefinitely = false;
+                        }
                         toRun.Add(task);
                     }
                     // remove tasks, that are not alive
@@ -82,11 +85,21 @@ namespace Scheduling
                     _scheduledTasks = toRun;
 
                     var now = DateTime.Now;
-                    if (nextExecution > now)
+                    if (waitIndefinitely)
                     {
-                        Console.WriteLine(DateTime.Now.ToString("u") + " nothing to do, wait " + (nextExecution - now) + " unless wake signal received");
-                        _waitHandle.WaitOne(nextExecution - now);
-                        Console.WriteLine(DateTime.Now.ToString("u") + " time is up or wake signal received");
+                        // Console.WriteLine(DateTime.Now.ToString("u") + " nothing scheduled, wait for wake signal");
+                        // wait until wake signal
+                        _waitHandle.WaitOne();
+                    }
+                    else if (nextExecution > now)
+                    {
+                        // Console.WriteLine(DateTime.Now.ToString("u") + " nothing to do, wait " + (nextExecution - now) + " unless wake signal received");
+                        // WaitOne supports only 2^31-1 milliseconds of waiting, which is Int32 max value, even when using TimeSpan object.
+                        // Thus align the total milliseconds to this max value and wait for this value instead.
+                        // This allows to sleep repeatedly until real execution occurs, because this limit is equal to around 24 days.
+                        var milliseconds = (int)(nextExecution - now).TotalMilliseconds;
+                        _waitHandle.WaitOne(milliseconds);
+                        // Console.WriteLine(DateTime.Now.ToString("u") + " time is up or wake signal received");
                     }
 
                     foreach (var task in _scheduledTasks.Where(task => task._alive && task._nextExecution < DateTime.Now))
