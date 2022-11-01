@@ -2,6 +2,8 @@
 bin/
 obj/
 /packages/
+*.pubxml
+
 
 # IDE files
 .idea/
